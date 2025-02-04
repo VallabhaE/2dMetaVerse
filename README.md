@@ -1,6 +1,5 @@
 ﻿# 2dMetaVerse
 
-Checking Issues
 
 
 DATA BASE DESIGN PLAN 2/Feb/2025
