@@ -6,6 +6,7 @@ import (
 )
 
 func CheckAndCreateTables(db *sql.DB) {
+
 	var tables = map[string]string{"users":CreateUserTable,"admins":CreateAdminTable,"element":ElementTable,"spaceelement":SpaceElement,"mapelement":MapElementTable,"space":SpaceTable,"allspaceelements":AllSpaceElementsTable,"map":MapTable,"allmapelements":AllMapElementTable}
 	for k,v := range tables{
 		if TablesMap[k]==false{
