@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"database/sql"
 	"main/v1/controllers"
 	"github.com/gin-gonic/gin"
 )
