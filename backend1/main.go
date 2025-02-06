@@ -4,11 +4,16 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"main/dbase"
 	"main/v1"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/sessions"
 )
+
+
+
 
 func initDb() *sql.DB {
 	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/metaverse")
@@ -41,6 +46,7 @@ func main() {
 
 	// Database logic is being written here
 	db := initDb()
+	GLOBAL_DB_CONNECTION = db
 
 	defer db.Close()
 	fmt.Println("Database Connected")
@@ -51,8 +57,12 @@ func main() {
 	//further we use db to call database from API
 	router := gin.Default()
 
+	store := cookie.NewStore([]byte("secret"))
+	router.Use(sessions.Sessions("mysession", store))
+  
+
 	// Simple group: v1
-	v1.V1Group(router)
+	v1.V1Group(router,db)
 
 	router.Run(":8080")
 

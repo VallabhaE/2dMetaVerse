@@ -12,3 +12,9 @@ type SignUpRequest struct {
 	Password string `json:"password"`
 	ConformPassword string `json:"conformpassword`
 }
+type User struct{
+	id int `json:"id"`
+	Username string `json:"username"`
+	Email string `json:"email"`
+	Password string `json:"password"`
+}
