@@ -4,6 +4,32 @@ import (
 	"database/sql"
 	"fmt"
 )
+func InitDb() *sql.DB {
+	var err error
+	GLOBAL_DB_CONNECTION, err = sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/metaverse")
+
+	if err != nil {
+		panic(err.Error())
+	}
+	
+
+	quarry, err := GLOBAL_DB_CONNECTION.Query("show tables;")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	InitDataBase()
+	for quarry.Next() {
+		var tableName string
+		err := quarry.Scan(&tableName)
+		if err != nil {
+			panic(err.Error())
+		}
+		// Print the table name
+		TablesMap[tableName] = true
+	}
+	return GLOBAL_DB_CONNECTION
+}
 
 func CheckAndCreateTables(db *sql.DB) {
 

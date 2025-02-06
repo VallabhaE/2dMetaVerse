@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"main"
 	"database/sql"
 	"encoding/json"
 	"net/http"
 	"github.com/gin-gonic/gin"
+	"main/dbase"
+	
 )
 
 func Signin(ctx *gin.Context) {
@@ -17,7 +18,9 @@ func Signin(ctx *gin.Context) {
 		return
 	}
 	query := `SELECT * FROM users WHERE username = ? AND password = ?`
-	row,err:= GLOBAL_DB_CONNECTION.Query(query,req.Username,req.Password)
+
+	
+	row,err:= dbase.GLOBAL_DB_CONNECTION.Query(query,req.Username,req.Password)
 
 	if err!=nil{
 		ctx.JSON(http.StatusOK, gin.H{"error": "Database error", "issue":err})

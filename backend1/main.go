@@ -15,37 +15,12 @@ import (
 
 
 
-func initDb() *sql.DB {
-	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/metaverse")
 
-	if err != nil {
-		panic(err.Error())
-	}
-
-	quarry, err := db.Query("show tables;")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	dbase.InitDataBase()
-	for quarry.Next() {
-		var tableName string
-		err := quarry.Scan(&tableName)
-		if err != nil {
-			panic(err.Error())
-		}
-		// Print the table name
-		dbase.TablesMap[tableName] = true
-
-	}
-
-	return db
-}
 
 func main() {
 
 	// Database logic is being written here
-	db := initDb()
+	db := dbase.InitDb()
 	GLOBAL_DB_CONNECTION = db
 
 	defer db.Close()

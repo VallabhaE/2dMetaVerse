@@ -3,11 +3,12 @@ package v1
 import (
 	"database/sql"
 	"main/v1/controllers"
-
 	"github.com/gin-gonic/gin"
 )
 
-func V1Group(router *gin.Engine,db *sql.DB) {
+func V1Group(router *gin.Engine) {
+	
+	
 	v1 := router.Group("/v1")
 	{
 		
