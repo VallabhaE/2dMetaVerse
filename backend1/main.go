@@ -5,11 +5,8 @@ import (
 
 	"main/dbase"
 	"main/v1"
-
-	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/gorilla/sessions"
 )
 
 
