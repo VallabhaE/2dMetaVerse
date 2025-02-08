@@ -8,6 +8,7 @@ create table users(
     username varchar(255) UNIQUE,
     email varchar(255) UNIQUE,
     password varchar(255)
+    avatarid int default null
 );
 
 
@@ -92,3 +93,11 @@ create table allMapElements(
  FOREIGN KEY (mapElementId) REFERENCES mapElement(id),
 );
 
+
+create table Avatars(
+    id int PRIMARY key auto_increment,
+    avatarName varchar(255),
+    avatarImg varchar(255),
+    height int
+    width int
+);
