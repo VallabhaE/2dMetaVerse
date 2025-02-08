@@ -6,9 +6,10 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"main/dbase"
-	"main/v1/session"
 	
 )
+
+var SESSION_MAP =  make(map[string]User)
 
 func Signin(ctx *gin.Context) {
 	var req SigninRequest
@@ -41,8 +42,9 @@ func Signin(ctx *gin.Context) {
 	}
 
 	byteedUserObj, err := json.Marshal(&user)
-	hash := hash(string(byteedUserObj))
-	session.SESSION_MAP[string(hash)] = user
+	hash := Hash(string(byteedUserObj))
+	
+	SESSION_MAP[string(hash)] = user
 	ctx.SetCookie("auth",string(hash),60*60*12*1,"/","",true,true)
 	ctx.JSON(http.StatusOK, gin.H{"message": "Signed in", "user": req.Username})
 
@@ -81,23 +83,7 @@ func SignUp(ctx *gin.Context) {
 }
 
 
-func getUserAvatar(ctx *gin.Context){
-	cookie,err:= ctx.Request.Cookie("auth")
-	if err!=nil{
-		ctx.SetCookie("auth","",-1,"/","",true,true)
-		ctx.JSON(http.StatusOK, gin.H{"error": "Issue with cookie please login"})
-		return
-	}
 
-	Userinfo,exist := session.SESSION_MAP[cookie.Value]
-	if !exist{
-		ctx.SetCookie("auth","",-1,"/","",true,true)
-		ctx.JSON(http.StatusOK, gin.H{"error": "Issue with cookie please login"})
-		return
-	}
-	ctx.JSON(http.StatusOK, gin.H{"message": "Success","AvatarId":string(Userinfo.AvatarId)})
-	return
-}
 
 
 func getAllAvatars(ctx *gin.Context) {
@@ -108,7 +94,7 @@ func getAllAvatars(ctx *gin.Context) {
 		return
 	}
 
-	Userinfo,exist := session.SESSION_MAP[cookie.Value]
+	_,exist := SESSION_MAP[cookie.Value]
 	if !exist{
 		ctx.SetCookie("auth","",-1,"/","",true,true)
 		ctx.JSON(http.StatusOK, gin.H{"error": "Issue with cookie please login"})

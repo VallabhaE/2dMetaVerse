@@ -10,7 +10,7 @@ type SignUpRequest struct {
 	Username string `json:"username"`
 	Email string `json:"email"`
 	Password string `json:"password"`
-	ConformPassword string `json:"conformpassword`
+	ConformPassword string `json:"conformpassword"`
 }
 type User struct{
 	Id int `json:"id"`
@@ -20,13 +20,14 @@ type User struct{
 	AvatarId string `json:"avatarid"`
 }
 
-type Avatars struct{
-	Id int `json"id"`
-	AvatarName string `json"avatarName"`
-	AvatarImg string `json"avatarImg"`
-	Height int `json"Height"`
-	Width int `json"Width"`
+type Avatars struct {
+    Id         int    `json:"id"`
+    AvatarName string `json:"avatarName"`
+    AvatarImg  string `json:"avatarImg"`
+    Height     int    `json:"Height"`
+    Width      int    `json:"Width"`
 }
+
 
 // id int PRIMARY key auto_increment,
 //     avatarName varchar(255),
