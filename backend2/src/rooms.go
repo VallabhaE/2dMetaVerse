@@ -1,23 +1,28 @@
-package main
+package src
 
 import 	"github.com/gorilla/websocket"
+
 // {
 // 	"type":"init_space",
 // 	"space_id":"1",
-// 	"username":"Balaiah"
+// 	"username":"Balaiah",
+// 	"height":"24",
+// 	"Width":"24"
 //   }
-
 type Room struct{
-	roomId int
+	RoomId string
 	Width int
 	Height int
 }
 
-type Movement struct{
-	UserId int `json:"userid"`
-	X int `json:"x"`
-	Y int `json:"y"`
-}
+
+// Sample Json
+// {
+// 	"userId":"1",
+// 	"spaceid":"1"
+// 	"x":"1",
+// 	"y":"2"
+//   }
 
 type PlayerObject struct{
 	Conn *websocket.Conn
@@ -25,4 +30,4 @@ type PlayerObject struct{
 }
 
 
-var RoomsOnline map[Room][]PlayerObject
+var RoomsOnline =  make(map[Room][]PlayerObject)
