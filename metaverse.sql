@@ -101,3 +101,8 @@ create table Avatars(
     height int
     width int
 );
+
+
+-- Addons on Top (Updates)
+
+ALTER TABLE users ADD COLUMN avatarId INT;
