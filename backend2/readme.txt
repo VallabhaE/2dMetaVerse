@@ -1,3 +1,5 @@
-Still have to start learn about Go Socket Programing or find some tutorials 
+80% of project is completed in socket programing
 
-project not started YET
+and when it comes to video part this socket place is only for transfer rtf or somedata which recieves it from client to all other same room Players
+
+that will be added once Fe is completed
