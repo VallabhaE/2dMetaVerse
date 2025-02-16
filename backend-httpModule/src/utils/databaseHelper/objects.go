@@ -63,17 +63,17 @@ type Map struct{
 // MapElement table struct
 
 type MapElement struct{
-	Id int
-	X int
-	Y int
-	ElementId int
+	Id int `json:"id"`
+	X int `json:"x"`
+	Y int `josn:"y"`
+	ElementId int `josn:"elementid"`
 }
 
 
 // Space table Struct
 type Space struct{
 	Id int
-	Thumbnail int
+	Thumbnail string
 	UserId int
 }
 

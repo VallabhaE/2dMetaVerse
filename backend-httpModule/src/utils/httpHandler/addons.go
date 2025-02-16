@@ -39,6 +39,13 @@ func GetAllElements(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// Sample Message to below Func
+// {
+//     "width":"21",
+//     "height":"22",
+//     "imageUrl":"212"
+// }
+
 func SetElement(w http.ResponseWriter, r *http.Request) {
 	var Element databaseHelper.Element
 	data, err := io.ReadAll(r.Body)

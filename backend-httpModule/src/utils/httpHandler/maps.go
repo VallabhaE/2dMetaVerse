@@ -37,6 +37,11 @@ func GetAllMaps(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(Success(string(data))))
 }
 
+//  Sample Body for below function
+// {
+//     "thumbnail":"EswarPersonal",
+//     "adminId":15
+// }
 func AddMap(w http.ResponseWriter, r *http.Request) {
 	data, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -44,6 +49,7 @@ func AddMap(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error With Data Reading", http.StatusBadRequest)
 	}
 	var UserMapDetails databaseHelper.Map
+	fmt.Println(string(data))
 	err = json.Unmarshal(data, &UserMapDetails)
 	if err != nil {
 		fmt.Println("Error With Data Unmarshaling :", err)
@@ -60,6 +66,14 @@ func AddMap(w http.ResponseWriter, r *http.Request) {
 	Ints, _ := res.LastInsertId()
 	w.Write([]byte(Success(strconv.FormatInt(Ints, 10))))
 }
+
+
+// Sample Body
+// {
+//     "x":22,
+//     "y":15,
+//     "elementid":2
+// }
 
 func AddMapElements(w http.ResponseWriter, r *http.Request) {
 	data, err := io.ReadAll(r.Body)

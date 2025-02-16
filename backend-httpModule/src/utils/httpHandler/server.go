@@ -13,7 +13,7 @@ import (
 var Mux *http.ServeMux
 
 func MethodCheck(method string, fun func(w http.ResponseWriter, r *http.Request)) http.Handler {
-	
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == method {
 			fun(w, r) // Call the provided handler function if method matches
@@ -36,22 +36,26 @@ func ListenAndServeRoutes() {
 	// Information Level Routes  -- Level -1
 	// 1.GetAllElements,GetAllAvatars,GetALLMaps,GetAllSpaces,
 
-
 	// For Elements
-	Mux.Handle("/GetAllElements",Middleware(MethodCheck(http.MethodGet,GetAllElements)))
-	Mux.Handle("/AddElementToDB",Middleware(MethodCheck(http.MethodPost,SetElement)))
-
+	Mux.Handle("/GetAllElements", Middleware(MethodCheck(http.MethodGet, GetAllElements)))
+	Mux.Handle("/AddElementToDB", Middleware(MethodCheck(http.MethodPost, SetElement)))
 
 	// For Avatars
-	Mux.Handle("/SetAvatar",Middleware(MethodCheck(http.MethodPut,SetAvatar)))
-
+	Mux.Handle("/SetAvatar", Middleware(MethodCheck(http.MethodPut, SetAvatar)))
 
 	// For Maps
-	Mux.Handle("/GetAllMaps",Middleware(MethodCheck(http.MethodGet,GetAllMaps)))
+	Mux.Handle("/GetAllMaps", Middleware(MethodCheck(http.MethodGet, GetAllMaps)))
+	Mux.Handle("/AddMap", Middleware(MethodCheck(http.MethodPost, AddMap)))
+	Mux.Handle("/AddMapElements", Middleware(MethodCheck(http.MethodPost, AddMapElements)))
+
+	//Get All Space
+	Mux.Handle("/GetAllSpace", Middleware(MethodCheck(http.MethodGet, GetAllSpaces)))
 
 	// Advanced Information Level Routes
 	// 1. If user Selected Map that should be created a space for him and move all elements and detials to user space who requested
 	// 2. when user attempts to join a space he can get roomId so that FE will attempt to connect that perticular room
+	Mux.Handle("/GetFullMapDetails", Middleware(MethodCheck(http.MethodGet, GetFullSpaceDetails)))
+	Mux.Handle("/MoveMapToSpace",Middleware(MethodCheck(http.MethodGet,MoveMapToSpace)))
 
 	log.Println("Listning on Prot :8080")
 	err := http.ListenAndServe(":8080", Mux)
@@ -119,7 +123,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(Success("OK")))
-	
+
 }
 
 func SignIn(w http.ResponseWriter, r *http.Request) {
@@ -127,7 +131,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		Type     string `json:"type"`
 		Username string `json:"username"`
 		Password string `json:"Password"`
-		AvatarId int `josn:"avatarId"`
+		AvatarId int    `josn:"avatarId"`
 	}{}
 
 	data, err := io.ReadAll(r.Body)
@@ -178,5 +182,5 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(Success(token)))
-	return
+	
 }
