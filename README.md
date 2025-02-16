@@ -2,6 +2,7 @@
 
 DATE := 9/Feb/2025
 ## Note
+- please use backend 1 http module insted of backed1 
 - Gin Will be completely removed soon from this repo, it was used initily where i started working with go backend and js/ts backend together (Both feels same)
 - backed --httpModule is for Backend which communicate with database and provice data to frount end by using API's
 - it is importent to find .sql file i provided on root folder and run all the commands then only this project will work on your local system
