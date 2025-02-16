@@ -206,6 +206,8 @@ func MoveMapToSpace(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res, err := databaseHelper.DATABASE_GLOBAL.Exec(databaseHelper.InsertIntoSpace, MapDetails.Thumbnail, SpaceOwnId)
+	fmt.Println("Space Insertion Happend")
+	
 	// SpaceID, err := res.LastInsertId()
 	// SpaceId = strconv.FormatInt(SpaceID, 10)
 	if err != nil {
@@ -227,19 +229,22 @@ func MoveMapToSpace(w http.ResponseWriter, r *http.Request) {
 		rows.Scan(&curr.Id, &curr.MapId, &curr.MapElementId)
 		mapElementsDetails = append(mapElementsDetails, curr)
 	}
+	fmt.Println("All Map Elements Retrieved",mapElementsDetails)
 
 	var mapElemets []databaseHelper.MapElement
 	for _, AllMapELementObj := range mapElementsDetails {
 		var current databaseHelper.MapElement
 		row := databaseHelper.GetGlobalDatabase().QueryRow(databaseHelper.GetAll_MapElementsById, AllMapELementObj.MapElementId)
-		err := row.Scan(current.Id, current.X, current.Y, current.ElementId)
+		err := row.Scan(&current.Id, &current.X, &current.Y, &current.ElementId)
 		if err != nil {
-			fmt.Println("Invalid Map Key:", err)
-			http.Error(w, "Invalid Map Key", http.StatusBadRequest)
+			fmt.Println("Invalid Db :", err)
+			http.Error(w, "Invalid ", http.StatusBadRequest)
 			return
 		}
 		mapElemets = append(mapElemets, current)
 	}
+
+	fmt.Println(" Map Elements Retrieved",mapElemets)
 
 	for i := 0; i < len(mapElemets); i++ {
 
@@ -262,6 +267,7 @@ func MoveMapToSpace(w http.ResponseWriter, r *http.Request) {
 		}
 		data, _ := row.LastInsertId()
 		fmt.Println(data)
+		fmt.Println("pushing initiated,",SpaceIdCreaedByMap,mapElemets[i])
 	}
 
 	w.WriteHeader(http.StatusOK)

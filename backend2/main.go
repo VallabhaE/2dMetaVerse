@@ -27,10 +27,11 @@ type Init_struct_2dGame struct {
 	Movement Movement `json:"movement"`
 }
 type Movement struct {
-	UserId  int `json:"userid"`
-	SpaceId int `json:"spaceid"`
-	X       int `json:"x"`
-	Y       int `json:"y"`
+	UserId  int  `json:"userid"`
+	SpaceId int  `json:"spaceid"`
+	X       int  `json:"x"`
+	Y       int  `json:"y"`
+	Status  bool `json:"Status"`
 }
 
 func handleWebSocket(w http.ResponseWriter, r *http.Request) {
@@ -66,6 +67,12 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			src.RoomsOnline[Room] = append(src.RoomsOnline[Room], User)
 
 		} else if Initilization.Type == src.MOVE {
+			if VerifyMove(Initilization) {
+				var MoveMent = Initilization.Movement
+				MoveMent.Status = true
+				data,_ := json.Marshal(MoveMent)
+				conn.WriteMessage(messageType,data)
+			}
 			AllRoomPlayers := src.RoomsOnline[Room]
 			for room := 0; room < len(AllRoomPlayers); room++ {
 				singleClient := AllRoomPlayers[room]
@@ -109,6 +116,19 @@ func UpdateUserRoomData(init Init_struct_2dGame, conn *websocket.Conn) (src.Play
 	Room.Width = width
 
 	return User, Room
+}
+
+
+func VerifyMove(Initilization Init_struct_2dGame) bool{
+	height,err := strconv.Atoi(Initilization.Height)
+	if err!=nil{
+		return false
+	}
+	Width,err := strconv.Atoi(Initilization.Width)
+	if  height< Initilization.Movement.Y || Width < Initilization.Movement.X{
+		return false
+	}
+	return true
 }
 
 func main() {
