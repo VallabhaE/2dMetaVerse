@@ -9,7 +9,8 @@ DATE := 9/Feb/2025
 
   
 **Finished with backed** Updated to net/http module
-**Socket Programing Is 90% Done only Boundry logic has to be modified and tested.**
+
+**Socket Programing Is 90% Done.**
   
 Tasked to be done
 
