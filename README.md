@@ -1,4 +1,6 @@
-﻿# 2dMetaVerse
+# please use backend-httpModule insted of backed-1 module (i moved from gin to net/http for more internal understanding)
+# for sockets use backend -2
+# 2dMetaVerse
 
 DATE := 9/Feb/2025
 ## Note
